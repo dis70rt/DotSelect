@@ -1,3 +1,4 @@
+import 'package:deci_dot/widgets/circle.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -16,13 +17,12 @@ class UserPopupScreen extends StatelessWidget {
     final DatabaseReference database = FirebaseDatabase.instance.ref("notifications");
 
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.5), // Transparent background
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
             borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.white, width: 2)
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -30,23 +30,28 @@ class UserPopupScreen extends StatelessWidget {
               const Text(
                 "Selected User",
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 20),
+              Hero(
+                tag: rollNumber,
+                child: circle(userName),
+              ),
+              const SizedBox(height: 20),
               Text(
                 "Name: $userName",
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 18,
                 ),
               ),
               Text(
                 "Roll Number: $rollNumber",
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 18,
                 ),
               ),

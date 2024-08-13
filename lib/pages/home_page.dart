@@ -21,7 +21,6 @@ class HomePageState extends State<HomePage> {
   late final Stream<DatabaseEvent> userStream;
   late Map<String, UserModel> users;
   bool isCountdownActive = false;
-  bool isGlowing = false;
   String? selectedUserKey;
   final Duration countdownDuration = const Duration(seconds: 5);
   Timer? countdownTimer;
@@ -66,14 +65,15 @@ class HomePageState extends State<HomePage> {
             this.selectedUserKey = selectedUserKey.toString();
           });
           showUserPopup();
-        } else {}
-      } else {}
+        }
+      }
     });
   }
 
   void updatePosition(Offset position) {
     database.child("Users").child(widget.rollNumber).update({
       "name": widget.name,
+      "roll": widget.rollNumber,
       "dx": position.dx,
       "dy": position.dy,
     });
@@ -82,7 +82,6 @@ class HomePageState extends State<HomePage> {
   void startCountdown() {
     setState(() {
       isCountdownActive = true;
-      isGlowing = true;
       remainingSeconds = countdownDuration.inSeconds;
     });
 
@@ -94,7 +93,6 @@ class HomePageState extends State<HomePage> {
       } else {
         timer.cancel();
         setState(() {
-          isGlowing = false;
           isCountdownActive = false;
         });
         selectRandomUser();
@@ -114,7 +112,7 @@ class HomePageState extends State<HomePage> {
         "selectedUserKey": selectedUserKey,
         "timestamp": DateTime.now().toIso8601String(),
       });
-    } else {}
+    }
   }
 
   void showUserPopup() {
@@ -128,7 +126,7 @@ class HomePageState extends State<HomePage> {
           ),
         ),
       );
-    } else {}
+    }
   }
 
   @override
@@ -147,6 +145,11 @@ class HomePageState extends State<HomePage> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios_new),
+          color: Colors.white,
+        ),
       ),
       body: Stack(
         children: [
@@ -171,7 +174,7 @@ class HomePageState extends State<HomePage> {
             Positioned(
               left: offset!.dx - 25,
               top: offset!.dy - 25,
-              child: circle(widget.name),
+              child: Hero(tag: widget.rollNumber, child: circle(widget.name)),
             ),
           ...users.entries
               .where((entry) => entry.key != widget.rollNumber)
@@ -180,8 +183,7 @@ class HomePageState extends State<HomePage> {
             return Positioned(
               left: user.dx - 25,
               top: user.dy - 25,
-              child: circle(user.name,
-                  isGlowing: isGlowing && selectedUserKey == entry.key),
+              child: Hero(tag: entry.key, child: circle(user.name)),
             );
           }),
           if (isCountdownActive)
@@ -197,15 +199,15 @@ class HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-          // if (!isCountdownActive)
-          //   Positioned(
-          //     bottom: 20,
-          //     right: 20,
-          //     child: ElevatedButton(
-          //       onPressed: startCountdown,
-          //       child: const Text("Start Selection"),
-          //     ),
-          //   ),
+          if (!isCountdownActive)
+            Positioned(
+              bottom: 20,
+              right: 20,
+              child: ElevatedButton(
+                onPressed: startCountdown,
+                child: const Text("Start Selection"),
+              ),
+            ),
         ],
       ),
     );
