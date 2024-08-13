@@ -1,11 +1,11 @@
 {
-    "name": "deci_dot",
-    "short_name": "deci_dot",
+    "name": "DotSelect",
+    "short_name": "DotSelect",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "An interactive app for COPS Orientation at IIT-BHU. Log in, touch the screen to create a dot, and you might win a gift!.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

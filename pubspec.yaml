@@ -1,5 +1,5 @@
 name: deci_dot
-description: "A new Flutter project."
+description: "An interactive app for COPS Orientation at IIT-BHU. Log in, touch the screen to create a dot, and you might win a gift!."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
